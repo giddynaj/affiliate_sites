@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  visitor_id: 1
+  stage_id: 1
+  datetime_ts: 2016-03-03 07:48:42
+
+two:
+  visitor_id: 1
+  stage_id: 1
+  datetime_ts: 2016-03-03 07:48:42
