@@ -20,7 +20,6 @@ class DomainController < ApplicationController
 
   def event_request
   if request.format == :js || request.format == :json
-    binding.pry
     #record event request
     @visitor.update_events(session, params)
     #prep requested data
@@ -29,22 +28,26 @@ class DomainController < ApplicationController
   end
 
   def create_visitor
-    binding.pry
     unless cookies[:visitor] && (visitor=Visitor.find_by_id(cookies[:visitor]))
       ip = nil
       begin
         ip = request.remote_ip
       rescue
       end
-      visitor=Visitor.create(:uri => request.fullpath, :ip => ip, :user_agent => request.env['HTTP_USER_AGENT'], :referer => request.env['HTTP_REFERER'], :client => get_client_name(request.env['SERVER_NAME']), :client_version_id => 1)
+      client = get_client
+      visitor=Visitor.create(:uri => request.fullpath, :ip => ip, :user_agent => request.env['HTTP_USER_AGENT'], :referer => request.env['HTTP_REFERER'], :client_id => client.id, :client => client, :client_version_id => client.client_version_id)
       cookies[:visitor] = { value: visitor.id, expires: 6.hours.from_now }
     end
     #cookie_user
     @visitor = visitor
   end
   
-  def get_client_name(server_name)
-    server_name.gsub!(/www\./,'')
+  def get_client
+    if !(client = Client.find_by_base_url(request.env['SERVER_NAME'].gsub(/www\./,''))).nil?
+      return client 
+    else
+      return Client.find_by_id(1)
+    end
   end
 
   

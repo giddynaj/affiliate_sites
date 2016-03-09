@@ -5,20 +5,8 @@ def determine_layout
 if @visitor
 return @visitor.client_version.stages.first.layout_name
 else
-return 'abc'
+return 'welcome'
 end
-end
-
-def index
-@test = "abc"
-end
-
-def filter
-  binding.pry
-end
-
-def signup 
-render :text => "{\"url\":\"/signup\"}"
 end
 
 end

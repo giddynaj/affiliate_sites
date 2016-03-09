@@ -8,7 +8,8 @@ class CreateVisitors < ActiveRecord::Migration
       t.datetime :created_at
       t.integer :context_id
       t.string :client
-
+      t.integer :client_version_id
+      t.integer :client_id
       t.timestamps null: false
     end
   end

@@ -1,28 +1,11 @@
-== README
+== Affiliate Sites 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+ruby 2.0.0
+rails 4.2
 
-Things you may want to cover:
+Ignore the migrations. in db folder there is a schema dump that you can use instead. schema name 'development'
 
-* Ruby version
+make mappings in your host file for abc.com and def.com to localhost.
 
-* System dependencies
+Visiting these domain against the app, will POC the semi-dynamic layouts setup of the app.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.

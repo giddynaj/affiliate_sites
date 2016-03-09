@@ -1,18 +1,21 @@
 require 'domain_constraint'
 Rails.application.routes.draw do
+  dc = DomainConstraint.new
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  ['welcome'].each do |dom|
+  dc.domains.each do |dom|
   scope :format => true, :constraints => { :format => 'json' } do
-    get '/filter' => "#{dom}#filter" 
+    get '/filter' => "#{dom['name']}#filter" 
   end
-  get '/:action', :controller => dom
-  get '/' => "#{dom}#index"
+  constraints(lambda{|req| req.env['SERVER_NAME'] == dom['base_url'] }) do
+    get '/:action', :controller => dom['name']
+    get '/' => "#{dom['name']}#index"
+  end
   end
   #get '/:stage' => 'welcome#index'
-  #root 'welcome#index'
+  root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
