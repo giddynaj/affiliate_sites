@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   scope :format => true, :constraints => { :format => 'json' } do
     get '/filter' => "#{dom['name']}#filter" 
   end
-  constraints(lambda{|req| req.env['SERVER_NAME'] == dom['base_url'] }) do
+  constraints(lambda{|req| [dom['base_url'], 'www.' + dom['base_url']].include?(req.env['SERVER_NAME'].downcase) }) do
     get '/:action', :controller => dom['name']
     get '/' => "#{dom['name']}#index"
   end
