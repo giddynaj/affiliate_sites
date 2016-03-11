@@ -1,4 +1,5 @@
 class Visitor < ActiveRecord::Base
+  attr_accessor :current_stage
   has_many :visits
   has_many :events
   belongs_to :client
