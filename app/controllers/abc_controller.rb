@@ -1,6 +1,6 @@
 class AbcController < DomainController 
 layout :determine_layout
-before_filter :set_current_stage
+before_filter :set_current_action
 before_filter :handle_json
 
 def determine_layout
@@ -11,23 +11,31 @@ def determine_layout
   end
 end
 
-def set_current_stage
-  @visitor.current_stage = @_action_name
+def set_current_action
+  @visitor.current_action = @_action_name
 end
 
 def handle_json
 if request.format == :json
-render :text => "{\"url\":\"/signup\"}"
+case @visitor.current_action
+when 'index'
+  render :text => "{\"url\":\"/signup\"}"
+when 'signup'
+  render :text => "{\"url\":\"/carview\"}"
+when 'carview'
+  render :text => "{\"url\":\"/index\"}"
+end
+
 end
 end
 
 def index
-end
-
-def filter
+@fg = @visitor.client_version.stages.find_by_name('index').form_field_group
 end
 
 def signup 
 end
 
+def carview 
+end
 end
