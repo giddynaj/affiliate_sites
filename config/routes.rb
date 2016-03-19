@@ -1,5 +1,6 @@
 require 'domain_constraint'
 Rails.application.routes.draw do
+
   devise_for :users
   dc = DomainConstraint.new
   # The priority is based upon order of creation: first created -> highest priority.

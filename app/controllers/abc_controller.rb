@@ -19,6 +19,10 @@ def handle_json
 if request.format == :json
 case @visitor.current_action
 when 'index'
+  #params['type'] handle submit and event
+  #params['lastname'] handle different types of actions
+  #autocorrect / typos / validation
+
   render :text => "{\"url\":\"/signup\"}"
 when 'signup'
   render :text => "{\"url\":\"/carview\"}"
@@ -37,5 +41,6 @@ def signup
 end
 
 def carview 
+
 end
 end

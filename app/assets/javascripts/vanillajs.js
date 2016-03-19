@@ -1,13 +1,18 @@
 var url = "";
     
-function generateUrl(){
+function generateSubmitUrl(){
   var form = document.getElementById("form");
   var url = ""
   for (i = 0; i < form.elements.length; i++) {
     var elm = form.elements[i];
       url += elm.id + "=" + elm.value + "&";
     }
-  url = form.action + "?" + url
+  url = form.action + "?" + url + 'type=submit';
+return url;
+}
+function generateEventUrl(obj){
+  var url = obj.name + "=" + obj.value + "&";
+  url = form.action + "?" + url + 'type=event';
 return url;
 }
 
@@ -131,6 +136,20 @@ function addToDropdown(obj){
         });
    }
 
+   function send_event(url){
+    get(url).then(function(response) {
+        console.log("Success!", response);
+        eraseResults('list');
+        try { 
+          var parsed_response = JSON.parse(response);
+        } catch (err) {
+        }
+          console.log(parsed_response);
+        }, function(error) {
+          console.error("Failed!", error);
+        });
+   }
+
    function eraseResults(obj){
      var myNode = document.getElementById(obj);
      while (myNode.firstChild) {
@@ -139,9 +158,15 @@ function addToDropdown(obj){
    }
 
 function submitFunction(){
-  url = generateUrl();
-  get_first(url)
+  url = generateSubmitUrl();
+  get_first(url);
   return false;
+}
+
+function changed(obj){
+url = generateEventUrl(obj);
+send_event(url);
+console.log(obj);
 }
 
 var page_count = 0;
