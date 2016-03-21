@@ -163,6 +163,15 @@ function submitFunction(){
   return false;
 }
 
+function cycle(direction){
+  //#move on to next field
+  if (fields.length < (current_field_index + 1)) {
+    current_field_index += 1;
+  } 
+  return false;
+}
+  
+
 function changed(obj){
 url = generateEventUrl(obj);
 send_event(url);

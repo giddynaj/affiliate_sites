@@ -19,15 +19,20 @@ def handle_json
 if request.format == :json
 case @visitor.current_action
 when 'index'
+  if params['type'] == 'submit'
+    #Test validations
+    #
+    FormSubmission.create(:visitor_id => @visitor.id, :data => params)
+    render :text => "{\"url\":\"/thankyou\"}"
+  else 
+  render :text => "{\"action\":\"/nothing\"}"
+  end
+  #is form field event
+  #is submit event
+  #
   #params['type'] handle submit and event
   #params['lastname'] handle different types of actions
   #autocorrect / typos / validation
-
-  render :text => "{\"url\":\"/signup\"}"
-when 'signup'
-  render :text => "{\"url\":\"/carview\"}"
-when 'carview'
-  render :text => "{\"url\":\"/index\"}"
 end
 
 end
@@ -37,10 +42,7 @@ def index
 @fg = @visitor.client_version.stages.find_by_name('index').form_field_group
 end
 
-def signup 
+def thankyou 
 end
 
-def carview 
-
-end
 end
