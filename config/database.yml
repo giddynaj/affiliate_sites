@@ -10,7 +10,7 @@ default: &default
   timeout: 5000
 
 development:
-  adapter: mysql2 
+  adapter: pg 
   encoding: utf8
   database: development 
   pool: 5
