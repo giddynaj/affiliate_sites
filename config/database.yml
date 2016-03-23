@@ -5,11 +5,11 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
+#  adapter: sqlite3
+#  pool: 5
+#  timeout: 5000
 
-development:
+#development:
   adapter: mysql 
   encoding: utf8
   database: development 
@@ -17,6 +17,9 @@ development:
   username: hedjet
   password: hedjet
   host: localhost
+
+development:
+  <<: *default
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
