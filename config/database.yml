@@ -35,3 +35,4 @@ production:
   database: heroku_de241f92a458588
   username: b041a171a6bd6b
   password: 29db5f8a
+  host: us-cdbr-iron-east-03.cleardb.net
