@@ -40,6 +40,7 @@ end
 
 def index
 @fg = @visitor.client_version.stages.find_by_name('index').form_field_group
+@visitor.client_version.stages.find_by_name('index').form_field_group.form_fields.to_json(:include => :options_group)
 end
 
 def thankyou 
