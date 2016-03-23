@@ -5,6 +5,10 @@ var current_field_index = 0;
 var fg = <%= @visitor.client_version.stages.find_by_name('index').form_field_group.form_fields.to_json(:include => :options_group).html_safe %>;
 </script>
 <style type="text/css">
+body{
+  background-color: grey;
+}
+
 .form-style-5{
     max-width: 500px;
     padding: 10px 20px;
@@ -122,6 +126,26 @@ height: 500px;
 }
 
 </style>
+<style>
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+
+/*** custom checkboxes ***/
+
+input[type=checkbox] { display:none; } /* to hide the checkbox itself */
+input[type=checkbox] + label:before {
+  font-family: FontAwesome;
+  display: inline-block;
+}
+input[type=checkbox] + label:before { content: "\f10c"; } /* unchecked icon */
+input[type=checkbox] + label:before { letter-spacing: 10px; } /* space between checkbox and label */
+
+input[type=checkbox]:checked + label:before { content: "\f05d"; } /* checked icon */
+input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow space for check mark */
+label:hover.radio{
+background: grey;
+}
+</style>
 <div class="container">
 
 <div class="form-style-5">
@@ -159,6 +183,11 @@ height: 500px;
 <% field = @fg.get_field_by_name('industry') %>
 <label for='make_id' id='make_id_label'><%= field.label %></label>
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
+</div>
+<div class="twelve columns">
+<label for='make_id' id='make_id_label'>NAICS Lookup</label>
+<input type=text onchange="return getn(this)"></input>
+<div id=naicslist></div>
 </div>
 <div class="twelve columns">
 <% field = @fg.get_field_by_name('frequency_help_needed') %>
