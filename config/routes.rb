@@ -1,18 +1,18 @@
 require 'domain_constraint'
 Rails.application.routes.draw do
 
-#  devise_for :users
-#  dc = DomainConstraint.new
+  devise_for :users
+  dc = DomainConstraint.new
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-#  dc.domains.each do |dom|
-#  constraints(lambda{|req| [dom['base_url'], 'www.' + dom['base_url']].include?(req.env['SERVER_NAME'].downcase) }) do
-#    get '/:action', :controller => dom['name']
-#    get '/' => "#{dom['name']}#index"
-#  end
-#  end
+  dc.domains.each do |dom|
+  constraints(lambda{|req| [dom['base_url'], 'www.' + dom['base_url']].include?(req.env['SERVER_NAME'].downcase) }) do
+    get '/:action', :controller => dom['name']
+    get '/' => "#{dom['name']}#index"
+  end
+  end
   #get '/:stage' => 'welcome#index'
   get '/admin' => 'admin#index'
   root 'welcome#index'
