@@ -9,10 +9,18 @@ def form_field_helper(form_field, options=nil)
   when 'text'
     text_field_tag(form_field.name, nil, options )
   when 'select'
-    select_tag(form_field.name, options_for_select(form_field.options_group.pluck(:value)), options )
+    select_tag(form_field.name, options_for_select(form_field.get_options_group_values), options )
   when 'multi_select'
-    select_tag(form_field.name, options_for_select(form_field.options_group.pluck(:value)), options )
-  end
+    select_tag(form_field.name, options_for_select(form_field.get_options_group_values), options )
   end
   end
 end
+
+def cache_key_for_abc
+# TODO figure out correct way to do cache key
+#  count          = Product.count
+#  max_updated_at = Product.maximum(:updated_at).try(:utc).try(:to_s, :number)
+#  "products/all-#{count}-#{max_updated_at}"
+end
+end
+
