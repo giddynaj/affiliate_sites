@@ -17,25 +17,20 @@ end
 
 def handle_json
 if request.format == :json
-case @visitor.current_action
-when 'index', 'form'
   if params['type'] == 'submit'
-    #Test validations
-    #
-    FormSubmission.create(:visitor_id => @visitor.id, :data => params)
-    render :text => "{\"url\":\"/#{@visitor.get_next_stage(@visitor.current_action)}\"}"
-  else 
-  render :text => "{\"action\":\"/nothing\"}"
-  end
-  #is form field event
-  #is submit event
-  #
-  #params['type'] handle submit and event
-  #params['lastname'] handle different types of actions
-  #autocorrect / typos / validation
-end
+  errors = @visitor.validate_fields(params)
 
+  if !errors
+    #render move on
+    FormSubmission.create(:visitor_id => @visitor.id, :data => params)
+    render :text => "[{\"url\":\"/#{@visitor.get_next_stage(@visitor.current_action)}\"}]"
+  else
+    render :text => errors.to_json
+  end
+else 
+ render :text => "[{\"action\":\"/nothing\"}]"
 end
+end  
 end
 
 def index

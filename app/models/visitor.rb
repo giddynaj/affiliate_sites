@@ -16,6 +16,16 @@ class Visitor < ActiveRecord::Base
     visits.create(:stage_id => client_version.stages.find_by_name(@current_action).try(:id))
   end
 
+  def validate_fields(params)
+    #find pertinent fields
+    fields = client_version.stages.find_by_name(@current_action).form_field_group.form_fields
+    errors = fields.map {|field|
+      field.validate(params[field.name])
+    }.delete_if { | error | error.empty? }
+    
+    return errors.empty? ? false : errors
+  end
+
   def get_next_stage(current_action)
       cache_fetch(client_version.id.to_s + '_' + current_action + '_next_stage', 'never') do
         sequence = client_version.stages.order(:sequence).find_by_name(current_action).try('sequence') rescue nil
@@ -32,4 +42,6 @@ class Visitor < ActiveRecord::Base
     end
     events.create(:event_type => params['type'], :data => key_hash)
   end
+private
+  
 end

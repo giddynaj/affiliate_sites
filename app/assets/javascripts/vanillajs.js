@@ -1,3 +1,13 @@
+Object.prototype.keys = function ()
+{
+  var keys = [];
+  for(var i in this) if (this.hasOwnProperty(i))
+  {
+    keys.push(i);
+  }
+  return keys;
+}
+
 var url = "";
     
 function generateSubmitUrl(){
@@ -130,7 +140,17 @@ function addToDropdown(obj){
           var parsed_response = JSON.parse(response);
         } catch (err) {
         }
-        window.location = parsed_response.url;
+        first_element = parsed_response[0];
+        if (first_element.url != undefined) {
+          window.location = parsed_response.url;
+        } else {
+          document.getElementById('firstname');          
+          /*  
+ * Use HTML5 form validation
+ *
+ *  http://jsfiddle.net/girlie_mac/te3Qd/ */
+
+        }
         }, function(error) {
           console.error("Failed!", error);
         });
