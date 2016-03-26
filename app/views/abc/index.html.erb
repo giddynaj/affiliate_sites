@@ -1,49 +1,31 @@
 <script>
 var current_action = "<%= @visitor.current_action %>";
+var field_names = ['<%= @visitor.client_version.stages.find_by_name('index').form_field_group.form_fields.pluck(:name).join("','").html_safe %>'];
+var current_field_index = 0;
+var fg = <%= @visitor.client_version.stages.find_by_name('index').form_field_group.form_fields.to_json(:include => :options_group).html_safe %>;
 </script>
 <div class="container">
 
+<div class="form-style-5">
 <form action="/<%= @visitor.current_action %>.json" id="form" method="get" onsubmit="return submitFunction()">
+<legend><span class="number">1</span> BookkeepFinder.com</legend>
 <div class="row">
 <div class="six columns">
-<label for='make_id' id='make_id_label'> First Name</label>
-<%= form_field_helper(@fg.next_field) %>
+<label for='make_id' id='make_id_label'> Email</label>
+<%= form_field_helper(@fg.get_field_by_name('email'), { class: 'u-full-width', onchange: 'return changed(this);' }) %>
 </div>
 <div class="six columns">
-<label for='make_id' id='make_id_label'> Last Name</label>
-<%= form_field_helper(@fg.get_field_by_name('lastname')) %>
-</div>
-<div class="twelve columns">
-<label for='make_id' id='make_id_label'>Display Model</label>
-<%= form_field_helper(@fg.next_field) %>
-<%= select_tag 'display_model_id', options_for_select(["1","2","3"]), {:class => 'u-full-width', :onchange => 'return modelsFunction()'} %>
+<label for='make_id' id='make_id_label'> Zip Code</label>
+<%= form_field_helper(@fg.get_field_by_name('zipcode'), { class: 'u-full-width', onchange: 'return changed(this);'}) %>
 </div>
 </div>
-
 <input class="button-primary" name="commit" type="submit" value="Search" />
 </form>
-<div class="filter-header">
-  <a href="javascript:get_more()">Get More</a>
-  <a href="javascript:sort_children('car-price')">Sort Price</a>
-  <a href="javascript:sort_children('car-miles')">Sort Miles</a>
-  <a href="javascript:sort_children('car-truebook')">Sort Truebook</a>
 </div>
   <div>
   <ul id="list"></ul>
 </div>
 
-  <script id="my-template" type="x-template">
-    <li class="li-class">
-    <span class="car-name"></span>
-    <span class="car-image"></span>
-    <span class="car-price"></span>
-    <span class="car-year"></span>
-    <span class="car-miles"></span>
-    <span class="car-location"></span>
-    <span class="car-truebook"></span>
-    <span class="car-link"></span>
-    </li>
-  </script>
 </div>
 <script type='text/javascript'><!--// <![CDATA[
 /* [id1] www.abc.com - Lander */

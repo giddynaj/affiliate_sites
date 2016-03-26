@@ -1,13 +1,18 @@
 var url = "";
     
-function generateUrl(){
+function generateSubmitUrl(){
   var form = document.getElementById("form");
   var url = ""
   for (i = 0; i < form.elements.length; i++) {
     var elm = form.elements[i];
       url += elm.id + "=" + elm.value + "&";
     }
-  url = form.action + "?" + url
+  url = form.action + "?" + url + 'type=submit';
+return url;
+}
+function generateEventUrl(obj){
+  var url = obj.name + "=" + obj.value + "&";
+  url = form.action + "?" + url + 'type=event';
 return url;
 }
 
@@ -131,6 +136,37 @@ function addToDropdown(obj){
         });
    }
 
+   function get_thirdparty(url){
+    get(url).then(function(response) {
+        console.log("Success!", response);
+        eraseResults('list');
+        try { 
+          var parsed_response = JSON.parse(response);
+        } catch (err) {
+        }
+          if (!(typeof parsed_response === 'undefined')) {
+          display_in_list(parsed_response);
+          }
+        return parsed_response;
+        }, function(error) {
+          console.error("Failed!", error);
+        });
+   }
+
+   function send_event(url){
+    get(url).then(function(response) {
+        console.log("Success!", response);
+        eraseResults('list');
+        try { 
+          var parsed_response = JSON.parse(response);
+        } catch (err) {
+        }
+          console.log(parsed_response);
+        }, function(error) {
+          console.error("Failed!", error);
+        });
+   }
+
    function eraseResults(obj){
      var myNode = document.getElementById(obj);
      while (myNode.firstChild) {
@@ -139,9 +175,48 @@ function addToDropdown(obj){
    }
 
 function submitFunction(){
-  url = generateUrl();
-  get_first(url)
+  url = generateSubmitUrl();
+  get_first(url);
   return false;
+}
+
+function cycle(direction){
+  //#move on to next field
+  if (fields.length < (current_field_index + 1)) {
+    current_field_index += 1;
+  } 
+  return false;
+}
+  
+function getn(elm){
+url = 'http://naics.us/v0/s?year=2012&terms=' + elm.value;
+resp = get_thirdparty(url);
+return false;
+}
+
+function display_in_list(resp){
+    eraseResults("naicslist");
+    var length = resp.length
+    for (var i = 0; i < length; i++) {
+
+    var el = document.createElement('input');
+    var lab = document.createElement('label');
+    el.type = 'checkbox';
+    el.id = 'radio' + i;
+    el.value = resp[i]['code'] + ":" + resp[i]['title'];
+    lab.htmlFor = 'radio' + i;
+    lab.setAttribute('class','radio');
+    lab.innerHTML = resp[i]['title'];
+
+    document.getElementById("naicslist").appendChild(el);
+    document.getElementById("naicslist").appendChild(lab);
+  };
+}
+
+function changed(obj){
+url = generateEventUrl(obj);
+send_event(url);
+console.log(obj);
 }
 
 var page_count = 0;
