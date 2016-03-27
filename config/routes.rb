@@ -8,10 +8,15 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   dc.domains.each do |dom|
-  constraints(lambda{|req| [dom['base_url'], 'www.' + dom['base_url']].include?(req.env['SERVER_NAME'].downcase) }) do
-    get '/:action', :controller => dom['name']
-    get '/' => "#{dom['name']}#index"
-  end
+    constraints(lambda{|req| [dom['base_url'], 'www.' + dom['base_url']].include?(req.env['SERVER_NAME'].downcase) }) do
+      # Prefer.io staging
+      get '/:action', :controller => dom['name'], constraints: { subdomain: dom['name'] } # use subdomain constraints for dev base-url = <site>.prefer.io
+      get '/' => "#{dom['name']}#index", constraints: { subdomain: dom['name'] }
+
+      #Production Domain settings
+      get '/:action', :controller => dom['name']
+      get '/' => "#{dom['name']}#index"
+    end
   end
   #get '/:stage' => 'welcome#index'
   get '/admin' => 'admin#index'
