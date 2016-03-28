@@ -15,7 +15,9 @@ function generateSubmitUrl(){
   var url = ""
   for (i = 0; i < form.elements.length; i++) {
     var elm = form.elements[i];
+     if ((elm.type == 'checkbox' && elm.checked) || (elm.type != 'checkbox')) {
       url += elm.id + "=" + elm.value + "&";
+     }
     }
   url = form.action + "?" + url + 'type=submit';
 return url;
@@ -142,9 +144,12 @@ function addToDropdown(obj){
         }
         first_element = parsed_response[0];
         if (first_element.url != undefined) {
-          window.location = parsed_response.url;
+          window.location = parsed_response[0].url;
         } else {
-          document.getElementById('firstname');          
+          clearFormErrors();
+          for (var i = 0; i < parsed_response.length; i++) {
+            setElementToError(parsed_response[i]);
+          }
           /*  
  * Use HTML5 form validation
  *
@@ -154,6 +159,31 @@ function addToDropdown(obj){
         }, function(error) {
           console.error("Failed!", error);
         });
+   }
+
+   /* accepts {'firstname':'value'} */
+   function setElementToError(pr) {
+          field_name = pr.keys()[0];
+          field = document.getElementById(field_name);          
+          field_msg = document.getElementById(field_name + "_msg");
+          field_msg.className = "error";
+          field_msg.innerHTML = pr[field_name];
+          field.style.border = "1px solid red";
+   }
+
+   function clearFormErrors() {
+   var form = document.getElementsByTagName('form')[0];
+   for (var i = 0; i < form.elements.length; i++) {
+     setElementToNoError(form.elements[i]);
+   }
+   }
+
+   function setElementToNoError(field) {
+          field_msg = document.getElementById(field.name + "_msg");
+          if (field_msg != undefined) {
+          field_msg.className = "no-error";
+          field.style.border = "none";
+          }
    }
 
    function get_thirdparty(url){
@@ -234,6 +264,7 @@ function display_in_list(resp){
 }
 
 function changed(obj){
+//obj.checkValidity();
 url = generateEventUrl(obj);
 send_event(url);
 console.log(obj);

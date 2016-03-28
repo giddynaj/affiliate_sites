@@ -15,7 +15,7 @@ default: &default
   database: development 
   pool: 5
   username: hedjet
-  password: hedjet
+  password:  
   host: localhost
 
 development:

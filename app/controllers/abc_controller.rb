@@ -5,12 +5,15 @@ before_filter :set_current_action
 
 def determine_layout
   if @visitor
+    # TODO this assumes the layout to be of the first element
     return @visitor.client_version.stages.first.layout_name
   else
+    # TODO should make a default layout. plain vanilla
     return 'abc'
   end
 end
 
+# TODO change to current stage. remove ambiguity
 def set_current_action
   @visitor.current_action = @_action_name
 end
