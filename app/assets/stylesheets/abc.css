@@ -49,7 +49,6 @@ body{
     color:#8a97a0;
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
     box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-    margin-bottom: 30px;
     
 }
 .form-style-5 input[type="text"]:focus,
@@ -133,4 +132,20 @@ input[type=checkbox]:checked + label:before { content: "\f05d"; } /* checked ico
 input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow space for check mark */
 label:hover.radio{
 background: grey;
+}
+
+.no-error{
+visibility: hidden;
+height: 0px;
+margin-bottom: 30px;
+}
+
+.error{
+visibility: visible;
+margin-bottom: 30px;
+color: red;
+}
+
+#naicslist input{
+display: none;
 }

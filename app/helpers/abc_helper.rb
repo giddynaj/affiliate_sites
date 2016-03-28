@@ -5,13 +5,22 @@ def form_field_helper(form_field, options=nil)
  
   #html_class = options[:class] if options.class == Hash
 
+  options = { class: 'u-full-width no-bottom', onchange: 'return changed(this);', required: nil}
+  error_div = "<div id=#{form_field.name + '_msg'} class='no-error'></div>"
+  form_field.form_field_validations.each do |validation|
+    html_validation = validation.html_validation
+    if !html_validation.nil?
+      options.merge!(validation.html_validation)
+    end
+  end
+
   case form_field.html_type
   when 'text'
-    text_field_tag(form_field.name, nil, options )
+    text_field_tag(form_field.name, nil, options ) + error_div.html_safe
   when 'select'
-    select_tag(form_field.name, options_for_select(form_field.get_options_group_values), options )
+    select_tag(form_field.name, options_for_select(form_field.get_options_group_values), options ) + error_div.html_safe
   when 'multi_select'
-    select_tag(form_field.name, options_for_select(form_field.get_options_group_values), options )
+    select_tag(form_field.name, options_for_select(form_field.get_options_group_values), options ) + error_div.html_safe
   end
   end
 end

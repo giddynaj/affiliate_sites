@@ -36,7 +36,7 @@ class DomainController < ApplicationController
       rescue
       end
       client = get_client
-      visitor=Visitor.create(:uri => request.fullpath, :ip => ip, :user_agent => request.env['HTTP_USER_AGENT'], :referer => request.env['HTTP_REFERER'], :client_id => client.id, :client => client, :client_version_id => client.get_client_version)
+      visitor=Visitor.create(:uri => request.fullpath[0..250], :ip => ip, :user_agent => request.env['HTTP_USER_AGENT'], :referer => request.env['HTTP_REFERER'], :client_id => client.id, :client => client, :client_version_id => client.get_client_version)
       
       #TODO visitor.visitor_properties.create()
       #TODO detect device
