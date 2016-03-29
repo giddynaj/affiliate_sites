@@ -25,6 +25,7 @@ if request.format == :json
 
   if !errors
     #render move on
+    @visitor.set_key_fields(params)
     FormSubmission.create(:visitor_id => @visitor.id, :data => params)
     render :text => "[{\"url\":\"/#{@visitor.get_next_stage(@visitor.current_action)}\"}]"
   else
