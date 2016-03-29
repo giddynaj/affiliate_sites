@@ -4,11 +4,11 @@ class FormFieldValidation < ActiveRecord::Base
 
 
   def test(value)
-   self.send(name, value)
+   self.send(name, value) if !name.match("html_")
   end
   
   def html_validation
-   self.send(self.name.to_s + "_html")
+   self.send(self.name.to_s) if name.match("html_")
   end
 
   def method_missing(m, *args, &block)  
@@ -18,20 +18,20 @@ class FormFieldValidation < ActiveRecord::Base
 
   # TODO http://html5pattern.com/Miscs for patterns
   #
-  def email_html
+  def html_email
   return { type: 'email' }
   #type email
   end
 
-  def required_html
+  def html_required
     return { required: "" }
   end
 
-  def phone_html
+  def html_phone
     return { pattern: '\d{3}[\-]\d{3}[\-]\d{4}' }
   end
 
-  def zipcode_html
+  def html_zipcode
     return { pattern: '(\d{5}([\-]\d{4})?)' }
   end
 

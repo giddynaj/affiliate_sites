@@ -8,7 +8,7 @@ var fg = <%= @visitor.client_version.stages.find_by_name('index').form_field_gro
 
 <div class="form-style-5">
 <form action="/<%= @visitor.current_action %>.json" id="form" method="get" onsubmit="return submitFunction()">
-<legend><span class="number">1</span> Personal Info</legend>
+<legend><span class="number"></span> Searching for Bookkeeping in <%= @visitor.citystate %></legend>
 <div class="row">
 
 <% cache('form') do %>
@@ -20,10 +20,6 @@ var fg = <%= @visitor.client_version.stages.find_by_name('index').form_field_gro
 <div class="six columns">
 <label for='make_id' id='make_id_label'> Last Name</label>
 <%= form_field_helper(@fg.get_field_by_name('lastname'), { class: 'u-full-width', onchange: 'return changed(this);'}) %>
-</div>
-<div class="twelve columns">
-<label for='make_id' id='make_id_label'>State</label>
-<%= form_field_helper(@fg.get_field_by_name('state'), { class: 'u-full-width', onchange: 'return changed(this);' }) %>
 </div>
 <div class="twelve columns">
 <% field = @fg.get_field_by_name('primary_accounting_needs') %>

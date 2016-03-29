@@ -10,6 +10,29 @@ class Visitor < ActiveRecord::Base
   def cache_key
   end
 
+  def set_key_fields(data)
+  # TODO possible to get duplicate keys, maybe check for uniqueness or select latest if we want the extra data
+  if data['email'] 
+  self.visitor_properties.create!(key: 'email', value: data['email'])
+  end
+
+  if data['zipcode']
+  self.visitor_properties.create!(key: 'zipcode', value: data['zipcode'])
+  #find city and state
+  zc = ZipCode.find_by_zip(data['zipcode'])
+
+  self.visitor_properties.create!(key: 'city', value: zc.city)
+  self.visitor_properties.create!(key: 'state_abbr', value: zc.state.state_abbr)
+  self.visitor_properties.create!(key: 'state_full', value: zc.state.state_full)
+  end
+  end
+
+  def citystate
+  city = self.visitor_properties.find_by_key('city').try(:value)
+  state = self.visitor_properties.find_by_key('state_full').try(:value)
+  "#{city.titleize}, #{state.titleize}"
+  end
+
   def update_stage(session,params)
     #TODO Figure out stage or action session or accessor
     @current_action ||= params[:action]
