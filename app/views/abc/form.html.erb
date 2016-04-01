@@ -5,71 +5,88 @@ var current_field_index = 0;
 var fg = <%= @visitor.client_version.stages.find_by_name('index').form_field_group.form_fields.to_json(:include => :options_group).html_safe %>;
 </script>
 <div class="container">
+<div class="form-style-5">
+
+<form action="/<%= @visitor.current_action %>.json" id="form" method="get" onsubmit="return submitFunction()">
+
+<div class="row" style="display: none">
+<div class="offset-by-five two columns">
+<span class="fa-stack fa-lg bkf-logo">
+<i class="fa fa-square fa-stack-1x" style="font-size: 3.6em; left: 3px; top: -5px; color: darkgreen;"></i>
+<i class="fa fa-square-o fa-stack-1x" style="font-size: 6em; left: -23px; top: -13px; color: darkseagreen; "></i>
+<i class="fa fa-square-o fa-stack-1x" style="font-size: 6em; left: 0px; top: 13px; color: darkseagreen;"></i>
+<i class="fa fa-th fa-stack-1x" style="font-size: 2.3em; color: cadetblue; opacity: 0.5; left: 12px; top: -3px;"></i>
+</span>
+</div>
+</div>
+<div class="row">
+<div class="offset-by-five two columns">
+<span class="fa-stack fa-lg bkf-logo">
+<i class="fa fa-square fa-stack-1x" style="font-size: 2.88em; left: 3px; top: -5px; color: darkgreen;"></i>
+<i class="fa fa-square-o fa-stack-1x" style="font-size: 4.8em; left: -20px; top: -13px; color: darkseagreen; "></i>
+<i class="fa fa-square-o fa-stack-1x" style="font-size: 4.8em; left: -4px; top: 4px; color: darkseagreen;"></i>
+<i class="fa fa-th fa-stack-1x" style="font-size: 1.84em; color: cadetblue; opacity: 0.5; left: 5px; top: -8px;"></i>
+</span>
+</div>
+</div>
+<div class="row">
+<div class="twelve columns" style="text-align: center">
+<h5>Sign up for free and let us find your bookkeeper today</h5>
+</div>
+</div>
+<hr/>
+<div class="row">
+<div class="six columns">
+<ul style="list-style-type: none;">
+<li><div class="vertab current">Contact Information</div></li>
+<li><div class="vertab">Optional Questions</div></li>
+<li><div class="vertab">Receive Referral</div></li>
+</ul>
+</div>
+<div class="six columns">
 
 <div class="form-style-5">
 <form action="/<%= @visitor.current_action %>.json" id="form" method="get" onsubmit="return submitFunction()">
-<legend><span class="number"></span> Searching for Bookkeeping in <%= @visitor.citystate %></legend>
 <div class="row">
 
 <% cache('form') do %>
 
-<div class="six columns">
 <label for='make_id' id='make_id_label'> First Name</label>
 <%= form_field_helper(@fg.get_field_by_name('firstname'), { class: 'u-full-width', onchange: 'return changed(this);'}) %>
-</div>
-<div class="six columns">
 <label for='make_id' id='make_id_label'> Last Name</label>
 <%= form_field_helper(@fg.get_field_by_name('lastname'), { class: 'u-full-width', onchange: 'return changed(this);'}) %>
-</div>
-<div class="twelve columns">
 <% field = @fg.get_field_by_name('primary_accounting_needs') %>
 <label for='make_id' id='make_id_label'><%= field.label %></label>
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
-</div>
-<div class="twelve columns">
 <% field = @fg.get_field_by_name('current_accounting_software') %>
 <label for='make_id' id='make_id_label'><%= field.label %></label>
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
-</div>
-<div class="twelve columns">
 <% field = @fg.get_field_by_name('tax_classification') %>
 <label for='make_id' id='make_id_label'><%= field.label %></label>
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
-</div>
-<div class="twelve columns">
 <% field = @fg.get_field_by_name('industry') %>
 <label for='make_id' id='make_id_label'><%= field.label %></label>
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
-</div>
-<div class="twelve columns">
 <label for='make_id' id='make_id_label'>NAICS Lookup</label>
 <input type=text onchange="return getn(this)"></input>
 <div id=naicslist></div>
-</div>
-<div class="twelve columns">
 <% field = @fg.get_field_by_name('frequency_help_needed') %>
 <label for='make_id' id='make_id_label'><%= field.label %></label>
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
-</div>
-<div class="twelve columns">
 <% field = @fg.get_field_by_name('annual_income') %>
 <label for='make_id' id='make_id_label'><%= field.label %></label>
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
-</div>
-<div class="twelve columns">
 <% field = @fg.get_field_by_name('num_of_employees') %>
 <label for='make_id' id='make_id_label'><%= field.label %></label>
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
-</div>
 <% end #cache end %>
 </div>
-
-
 <input class="button-primary" name="commit" type="submit" value="Search" />
 </form>
 </div>
-  <div>
-  <ul id="list"></ul>
+
+</div>
 </div>
 
+</div>
 </div>
