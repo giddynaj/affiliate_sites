@@ -1,14 +1,22 @@
 body{
-  background-color: grey;
+padding-top: 50px;
+background-color: #0A4600;
+background-repeat: no-repeat;
+font-family: 'Raleway', sans-serif;
+color: white !important;
+background-color: #004F2D;
+background-image: radial-gradient(at 0 bottom, rgba(27,132,87,0.7) 0%,rgba(27,132,87,0) 60%),radial-gradient(at 90% bottom, #0C6B42 0%,rgba(52,149,107,0) 40%),radial-gradient(at 50% top, rgba(52,149,107,0.6) 0%,rgba(52,149,107,0) 75%),radial-gradient(at right top, #1B8457 0%,rgba(121,74,162,0) 57%);
 }
-
+html, body{
+min-height: 100%;
+}
 .form-style-5{
-    max-width: 500px;
+    max-width: 700px;
     padding: 10px 20px;
-    background: #f4f7f8;
+    /*background: #f4f7f8;*/
     margin: 10px auto;
     padding: 20px;
-    background: #f4f7f8;
+    /*background: #f4f7f8;*/
     border-radius: 8px;
     /*font-family: Georgia, "Times New Roman", Times, serif;*/
 }
@@ -107,7 +115,7 @@ body{
 .container {
 /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ebf1f6+0,abd3ee+28,89c3eb+74,89c3eb+74,d5ebfb+100 */
 border-radius: 30px;
-background-color: grey;
+/*background-color: grey;*/
 padding: 10px;
 top:0;
 position: relative;
@@ -148,4 +156,68 @@ color: red;
 
 #naicslist input{
 display: none;
+}
+
+.bkf-logo {
+height: 50%;
+width: 50%;
+margin-bottom: 50px;
+}
+.button-primary {
+height: 50px !important;
+background-color: white !important;
+border-color: white !important;
+color: darkgreen !important;
+}
+h5{
+letter-spacing: 1px !important;
+margin-bottom: 0px !important;
+}
+.vertab{
+border-radius: 30px 0px 0px 30px;
+border-top: 2px solid lightgreen;
+border-left: 2px solid lightgreen;
+border-bottom: 2px solid lightgreen;
+padding: 10px;
+-webkit-mask-image:-webkit-gradient(linear, left bottom, right top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+}
+.vertab.current{
+background-color: lightgreen;
+color: black;
+}
+.hortab{
+border-radius: 30px 30px 0px 0px;
+border-top: 2px solid lightgreen;
+border-left: 2px solid lightgreen;
+border-right: 2px solid lightgreen;
+padding: 10px;
+-webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+}
+.hortab.current{
+background-color: lightgreen;
+color: black;
+}
+.shadow {
+   -moz-box-shadow:    inset 0 0 20px #000000;
+   -webkit-box-shadow: inset 0 0 20px #000000;
+   box-shadow:         inset 0 0 20px #000000;
+}
+
+.hidden-phone{
+display: block;
+}
+.display-phone{
+display: none;
+}
+/* Larger than mobile */
+@media (max-width: 550px) {
+  .hidden-phone{
+display: none;
+  }
+  .display-phone{
+display: block;
+  }
+.center-phone{
+text-align: center;
+}
 }

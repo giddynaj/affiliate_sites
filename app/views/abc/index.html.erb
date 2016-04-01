@@ -5,26 +5,61 @@ var current_field_index = 0;
 var fg = <%= @visitor.client_version.stages.find_by_name('index').form_field_group.form_fields.to_json(:include => :options_group).html_safe %>;
 </script>
 <div class="container">
-
 <div class="form-style-5">
+
 <form action="/<%= @visitor.current_action %>.json" id="form" method="get" onsubmit="return submitFunction()">
-<legend><span class="number">
-</span> BookkeepFinder.com</legend>
+
+<div class="row" style="display: none">
+<div class="offset-by-five two columns">
+<span class="fa-stack fa-lg bkf-logo">
+<i class="fa fa-square fa-stack-1x" style="font-size: 3.6em; left: 3px; top: -5px; color: darkgreen;"></i>
+<i class="fa fa-square-o fa-stack-1x" style="font-size: 6em; left: -23px; top: -13px; color: darkseagreen; "></i>
+<i class="fa fa-square-o fa-stack-1x" style="font-size: 6em; left: 0px; top: 13px; color: darkseagreen;"></i>
+<i class="fa fa-th fa-stack-1x" style="font-size: 2.3em; color: cadetblue; opacity: 0.5; left: 12px; top: -3px;"></i>
+</span>
+</div>
+</div>
 <div class="row">
-<div class="six columns">
-<label for='make_id' id='make_id_label'> Email</label>
-<%= form_field_helper(@fg.get_field_by_name('email'), { class: 'u-full-width', onchange: 'return changed(this);' }) %>
+<div class="offset-by-five two columns center-phone">
+<span class="fa-stack fa-lg bkf-logo">
+<i class="fa fa-square fa-stack-1x" style="font-size: 2.88em; left: 3px; top: -5px; color: darkgreen;"></i>
+<i class="fa fa-square-o fa-stack-1x" style="font-size: 4.8em; left: -20px; top: -13px; color: darkseagreen; "></i>
+<i class="fa fa-square-o fa-stack-1x" style="font-size: 4.8em; left: -4px; top: 4px; color: darkseagreen;"></i>
+<i class="fa fa-th fa-stack-1x" style="font-size: 1.84em; color: cadetblue; opacity: 0.5; left: 5px; top: -8px;"></i>
+</span>
 </div>
-<div class="six columns">
-<label for='make_id' id='make_id_label'> Zip Code</label>
-<%= form_field_helper(@fg.get_field_by_name('zipcode'), { class: 'u-full-width', onchange: 'return changed(this);'}) %>
+</div>
+<div class="row">
+<div class="twelve columns" style="text-align: center">
+<h5>Sign up for free and let us find your bookkeeper today</h5>
 </div>
 </div>
-<input class="button-primary" name="commit" type="submit" value="Search" />
-</form>
+<hr/>
+<div class="row">
+<div class="six columns hidden-phone">
+<ul style="list-style-type: none;">
+<li><div class="vertab current">Contact Information</div></li>
+<li><div class="vertab">Optional Questions</div></li>
+<li><div class="vertab">Receive Referral</div></li>
+</ul>
 </div>
-  <div>
-  <ul id="list"></ul>
+<div class="six columns display-phone">
+<ul style="list-style-type: none;" >
+<li><div class="hortab current">Contact Information</div></li>
+<li><div class="hortab">Optional Questions</div></li>
+<li><div class="hortab">Receive Referral</div></li>
+</ul>
 </div>
 
+<div class="six columns">
+<%= form_field_helper(@fg.get_field_by_name('email'), { class: 'u-full-width shadow', onchange: 'return changed(this);' }) %>
+
+<%= form_field_helper(@fg.get_field_by_name('zipcode'), { class: 'u-full-width shadow', onchange: 'return changed(this);'}) %>
+
+<input class="button-primary" name="commit" type="submit" value="Search" />
+</div>
+</div>
+</form>
+
+</div>
 </div>

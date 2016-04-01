@@ -137,7 +137,7 @@ function addToDropdown(obj){
    function get_first(url){
     get(url).then(function(response) {
         console.log("Success!", response);
-        eraseResults('list');
+        /*eraseResults('list');*/
         try { 
           var parsed_response = JSON.parse(response);
         } catch (err) {
