@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `client_versions`;
 CREATE TABLE `client_versions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) DEFAULT NULL,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_client_versions_on_client_id` (`client_id`),
@@ -56,8 +56,8 @@ CREATE TABLE `clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `base_url` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
