@@ -1,8 +1,8 @@
 class DomainController < ApplicationController
   before_filter :set_current_session
   before_filter :create_visitor
-  before_filter :stage_arrival
-  before_filter :event_request
+  after_filter :stage_arrival
+  after_filter :event_request
 
   def set_current_session
     session[:current] ||= {}
@@ -28,6 +28,7 @@ class DomainController < ApplicationController
   end
 
   def create_visitor
+    #FIXME cookie is somehow breaking landing page when database change is made
     unless cookies[:visitor] && (visitor=Visitor.find_by_id(cookies[:visitor]))
       ip = nil
       begin
@@ -35,7 +36,22 @@ class DomainController < ApplicationController
       rescue
       end
       client = get_client
-      visitor=Visitor.create(:uri => request.fullpath, :ip => ip, :user_agent => request.env['HTTP_USER_AGENT'], :referer => request.env['HTTP_REFERER'], :client_id => client.id, :client => client, :client_version_id => client.get_client_version)
+      visitor=Visitor.create(:uri => request.fullpath[0..250], :ip => ip, :user_agent => request.env['HTTP_USER_AGENT'], :referer => request.env['HTTP_REFERER'], :client_id => client.id, :client => client, :client_version_id => client.get_client_version)
+      
+      #TODO visitor.visitor_properties.create()
+      #
+      #detect device
+      visitor.visitor_properties.set_device_type(visitor.user_agent)
+
+      #detect IP location
+      visitor.visitor_properties.set_connection_type(visitor.ip)
+ 
+      #traffic info
+      visitor.visitor_properties.set_traffic_type(params)
+
+      #TODO detect City State
+      #TODO detect visitor history
+      
       cookies[:visitor] = { value: visitor.id, expires: 6.hours.from_now }
     end
     #cookie_user
