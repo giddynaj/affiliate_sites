@@ -189,7 +189,7 @@ function addToDropdown(obj){
    function get_thirdparty(url){
     get(url).then(function(response) {
         console.log("Success!", response);
-        eraseResults('list');
+        eraseResults('naicslist');
         try { 
           var parsed_response = JSON.parse(response);
         } catch (err) {
