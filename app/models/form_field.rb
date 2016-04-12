@@ -14,7 +14,7 @@ class FormField < ActiveRecord::Base
 
   def get_options_group_values
     cache_fetch('options_group_values_' + self.options_group_id.to_s,'never') do
-      OptionsGroup.where(:group_id => self.options_group_id).pluck(:value)
+      OptionsGroup.where(:group_id => self.options_group_id).order('sequence asc').pluck(:value)
     end
   end
 

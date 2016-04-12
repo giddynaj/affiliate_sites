@@ -1,5 +1,5 @@
 body{
-padding-top: 50px;
+padding-top: 50px !important;
 background-color: #0A4600;
 background-repeat: no-repeat;
 font-family: 'Raleway', sans-serif;
@@ -138,8 +138,9 @@ input[type=checkbox] + label:before { letter-spacing: 10px; } /* space between c
 
 input[type=checkbox]:checked + label:before { content: "\f05d"; } /* checked icon */
 input[type=checkbox]:checked + label:before { letter-spacing: 5px; } /* allow space for check mark */
+
 label:hover.radio{
-background: grey;
+background: lightblue;
 }
 
 .no-error{
@@ -155,6 +156,19 @@ color: red;
 }
 
 #naicslist input{
+display: none;
+}
+
+#naicslist{
+text-align: left;
+height: 250px;
+overflow-x: hidden;
+margin-bottom: 10px;
+background-color: #58AE89;
+border-radius: 3px;
+}
+
+.hidden {
 display: none;
 }
 
@@ -184,6 +198,12 @@ padding: 10px;
 .vertab.current{
 background-color: lightgreen;
 color: black;
+cursor: pointer;
+}
+.vertab.previous{
+background-color: lightblue;
+color: black;
+cursor: pointer;
 }
 .hortab{
 border-radius: 30px 30px 0px 0px;

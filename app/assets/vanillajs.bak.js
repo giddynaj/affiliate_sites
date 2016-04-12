@@ -1,22 +1,14 @@
-Object.prototype.keys = function ()
-{
-  var keys = [];
-  for(var i in this) if (this.hasOwnProperty(i))
-  {
-    keys.push(i);
-  }
-  return keys;
-}
-
 var url = "";
     
-function generateSubmitUrl(){
+function generateSubmitUrl(arr_obj){
   var form = document.getElementById("form");
   var url = ""
   for (i = 0; i < form.elements.length; i++) {
     var elm = form.elements[i];
+     if (typeof arr_obj == 'undefined' || arr_obj.indexOf(elm.name) > -1) {
      if ((elm.type == 'checkbox' && elm.checked) || (elm.type != 'checkbox')) {
       url += elm.id + "=" + elm.value + "&";
+     }
      }
     }
   url = form.action + "?" + url + 'type=submit';
@@ -36,7 +28,7 @@ function get(url) {
     req.open('GET', url);
 
     req.onload = function() {
-      // This is called even on 404 etc
+      // This is callerd even on 404 etc
       // so check the status
       if (req.status == 200) {
         // Resolve the promise with the response text
@@ -161,9 +153,40 @@ function addToDropdown(obj){
         });
    }
 
+   function get_partial(url){
+    get(url).then(function(response) {
+        console.log("Success!", response);
+        /*eraseResults('list');*/
+        try { 
+          var parsed_response = JSON.parse(response);
+        } catch (err) {
+        }
+        first_element = parsed_response[0];
+        if (first_element.url != undefined) {
+          /*window.location = parsed_response[0].url;*/
+		var current_step_idx = $('#navigation li.current_nav').index();
+          advance_navigation(current_step_idx);
+          return true;
+        } else {
+          clearFormErrors();
+          for (var i = 0; i < parsed_response.length; i++) {
+            setElementToError(parsed_response[i]);
+          }
+          return false;
+          /*  
+ * Use HTML5 form validation
+ *
+ *  http://jsfiddle.net/girlie_mac/te3Qd/ */
+
+        }
+        }, function(error) {
+          console.error("Failed!", error);
+        });
+   }
    /* accepts {'firstname':'value'} */
    function setElementToError(pr) {
-          field_name = pr.keys()[0];
+          for (var i in pr) { field_name = i; }
+          /*need to find alternate to getting hash keys */
           field = document.getElementById(field_name);          
           field_msg = document.getElementById(field_name + "_msg");
           field_msg.className = "error";
@@ -206,7 +229,6 @@ function addToDropdown(obj){
    function send_event(url){
     get(url).then(function(response) {
         console.log("Success!", response);
-        eraseResults('list');
         try { 
           var parsed_response = JSON.parse(response);
         } catch (err) {
@@ -228,6 +250,11 @@ function submitFunction(){
   url = generateSubmitUrl();
   get_first(url);
   return false;
+}
+
+function submitPartialFunction(arr_obj){
+  url = generateSubmitUrl(arr_obj);
+  return get_partial(url);
 }
 
 function cycle(direction){
