@@ -28,8 +28,9 @@ class DomainController < ApplicationController
   end
 
   def create_visitor
+    sym = Rails.env.development? ? :dvisitor : :visitor
     #FIXME cookie is somehow breaking landing page when database change is made
-    unless cookies[:visitor] && (visitor=Visitor.find_by_id(cookies[:visitor]))
+    unless cookies[sym] && (visitor=Visitor.find_by_id(cookies[sym]))
       ip = nil
       begin
         ip = request.remote_ip
@@ -52,7 +53,7 @@ class DomainController < ApplicationController
       #TODO detect City State
       #TODO detect visitor history
       
-      cookies[:visitor] = { value: visitor.id, expires: 6.hours.from_now }
+      cookies[sym] = { value: visitor.id, expires: 6.hours.from_now }
     end
     #cookie_user
     @visitor = visitor

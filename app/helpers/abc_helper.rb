@@ -5,17 +5,19 @@ def form_field_helper(form_field, options=nil)
  
   #html_class = options[:class] if options.class == Hash
 
+  unless options
   options = { class: 'u-full-width no-bottom', onchange: 'return changed(this);', required: nil}
+  end
   error_div = "<div id=#{form_field.name + '_msg'} class='no-error'></div>"
 
   options.merge!({ placeholder: form_field.placeholder})
   #Merge db form field html5 validations
-  form_field.form_field_validations.each do |validation|
-    html_validation = validation.html_validation
-    if !html_validation.nil?
-      options.merge!(validation.html_validation)
-    end
-  end
+  #form_field.form_field_validations.each do |validation|
+  #  html_validation = validation.html_validation
+  #  if !html_validation.nil?
+  #    options.merge!(validation.html_validation)
+  #  end
+  #end
 
   case form_field.html_type
   when 'text'

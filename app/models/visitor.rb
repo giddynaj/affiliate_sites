@@ -12,18 +12,19 @@ class Visitor < ActiveRecord::Base
 
   def set_key_fields(data)
   # TODO possible to get duplicate keys, maybe check for uniqueness or select latest if we want the extra data
-  if data['email'] 
+  if !data['email'].nil? && !data['email'].empty?
   self.visitor_properties.create!(key: 'email', value: data['email'])
   end
 
-  if data['zipcode']
+  if !data['zipcode'].nil? && !data['zipcode'].empty?
   self.visitor_properties.create!(key: 'zipcode', value: data['zipcode'])
   #find city and state
   zc = ZipCode.find_by_zip(data['zipcode'])
-
+  if !zc.nil?
   self.visitor_properties.create!(key: 'city', value: zc.city)
   self.visitor_properties.create!(key: 'state_abbr', value: zc.state.state_abbr)
   self.visitor_properties.create!(key: 'state_full', value: zc.state.state_full)
+  end
   end
   end
 
@@ -41,7 +42,8 @@ class Visitor < ActiveRecord::Base
 
   def validate_fields(params)
     #find pertinent fields
-    fields = client_version.stages.find_by_name(@current_action).form_field_group.form_fields
+    pfields = params.map{|k,v| k if !['type','controller','action','format'].include?(k)}.compact
+    fields = client_version.stages.find_by_name(@current_action).form_field_group.form_fields.where(:name => pfields)
     errors = fields.map {|field|
       field.validate(params[field.name])
     }.delete_if { | error | error.empty? }
@@ -60,10 +62,11 @@ class Visitor < ActiveRecord::Base
     if params['type'] != 'submit'
     key_hash = params.dup
     key_hash.delete_if {|key, value| ['type','controller','action','format'].include?(key)}
+    events.create(:event_type => params['type'])
     else
-    key_hash = nil
-    end
+    #key_hash = nil
     events.create(:event_type => params['type'], :data => key_hash)
+    end
   end
 private
   

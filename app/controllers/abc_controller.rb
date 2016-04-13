@@ -20,14 +20,18 @@ end
 
 def handle_json
 if request.format == :json
-  if params['type'] == 'submit'
+  if ['submit','validate'].include? params['type'] 
   errors = @visitor.validate_fields(params)
 
   if !errors
     #render move on
     @visitor.set_key_fields(params)
+    if params['type'] == 'submit'
     FormSubmission.create(:visitor_id => @visitor.id, :data => params)
     render :text => "[{\"url\":\"/#{@visitor.get_next_stage(@visitor.current_action)}\"}]"
+    else
+    render :text => "[{\"action\":\"/nothing\"}]"
+    end
   else
     render :text => errors.to_json
   end
