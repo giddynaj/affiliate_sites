@@ -62,10 +62,11 @@ class Visitor < ActiveRecord::Base
     if params['type'] != 'submit'
     key_hash = params.dup
     key_hash.delete_if {|key, value| ['type','controller','action','format'].include?(key)}
+    events.create(:event_type => params['type'])
     else
-    key_hash = nil
-    end
+    #key_hash = nil
     events.create(:event_type => params['type'], :data => key_hash)
+    end
   end
 private
   

@@ -25,12 +25,20 @@ function handleIndustryDropdown(obj){
     case 'Other':
     $('input[name="industry-other"]')[0].value = '';
     $('.industry').removeClass('hidden');
+    $('#naicslist').addClass('hidden');
+    eraseResults('naicslist');
+    break;
+    case 'Please select':
+    $('input[name="industry-other"]')[0].value = '';
+    $('#naicslist').addClass('hidden');
+    $('.industry').addClass('hidden');
+    eraseResults('naicslist');
     break;
     default:
     $('input[name="industry-other"]')[0].value = obj.value;
     getn($('input[name="industry-other"]')[0]);
+    $('.industry').addClass('hidden');
     $('#naicslist').removeClass('hidden');
-    eraseResults('naicslist');
   }
 }
 
@@ -85,13 +93,14 @@ function get(url) {
 }
 
 function submitPartialFunction(arr_obj){
-  url = generateSubmitUrl(arr_obj);
+  url = generateSubmitUrl(arr_obj, 'validate');
   return get_partial(url);
 }
 
-function generateSubmitUrl(arr_obj){
+function generateSubmitUrl(arr_obj, type){
   var form = document.getElementById("form");
   var url = ""
+  if (type != 'submit') {
   for (i = 0; i < form.elements.length; i++) {
     var elm = form.elements[i];
      if (typeof arr_obj == 'undefined' || arr_obj.indexOf(elm.name) > -1) {
@@ -100,9 +109,33 @@ function generateSubmitUrl(arr_obj){
      }
      }
     }
-  url = form.action + "?" + url + 'type=submit';
+  }
+  url = form.action + "?" + url + 'type=' + type;
 return url;
 }
+
+   function get_first(url){
+    get(url).then(function(response) {
+        console.log("Success!", response);
+        /*eraseResults('list');*/
+        try { 
+          var parsed_response = JSON.parse(response);
+        } catch (err) {
+        }
+        first_element = parsed_response[0];
+        if (first_element.url != undefined) {
+          window.location = parsed_response[0].url;
+        } else {
+          clearFormErrors();
+          for (var i = 0; i < parsed_response.length; i++) {
+            setElementToError(parsed_response[i]);
+          }
+
+        }
+        }, function(error) {
+          console.error("Failed!", error);
+        });
+   }
 
 function get_partial(url){
     get(url).then(function(response) {
@@ -113,10 +146,15 @@ function get_partial(url){
         } catch (err) {
         }
         first_element = parsed_response[0];
-        if (first_element.url != undefined) {
+        if (first_element.action != undefined) {
           /*window.location = parsed_response[0].url;*/
           var current_step_idx = $('#2nav li div.icon2').index(document.getElementsByClassName('current_nav')[0])
           advance_navigation(current_step_idx);
+          if (current_step_idx+1 == document.querySelectorAll('#steps li').length) {
+            submitFunction();
+          }
+          
+          //window.location = parsed_response[0].url;
           return true;
         } else {
           clearFormErrors();
@@ -192,7 +230,6 @@ function advance_navigation(idx){
 			}else if(btn_index==list_elem_count){
 				
 				update_nav_position(btn_index, new_pos);
-				form_ready();
 
 			}			
 		});		
@@ -273,6 +310,17 @@ function display_in_list(resp){
 	function update_progress(idx){
 		$('.step_nb').text(idx +'/'+list_elem_count);
 	}
+	function form_ready(){
+    var form = document.getElementById('form');
+    form.submit();
+	}
+
+function submitFunction(){
+  url = generateSubmitUrl([],'submit');
+  get_first(url);
+  return false;
+}
+
 $(document).ready(function(){
 
 
@@ -316,6 +364,8 @@ $(document).ready(function(){
 	$(document).on('keypress', function(e){
 		var keyCode = e.keyCode || e.which
 		if(keyCode === 13) {
+      document.activeElement.blur();
+      return false;
       var current_step_idx = $('#2nav li div.icon2').index(document.getElementsByClassName('current_nav')[0])
 			execute_event(current_step_idx);
 		}
@@ -334,7 +384,7 @@ $(document).ready(function(){
 		}
 
 		if(!validate_form(idx)){
-			show_error(idx);
+			//show_error(idx);
 			return false;
 		}else{
 			clickable_btn = false;
@@ -343,6 +393,10 @@ $(document).ready(function(){
 				navigation_pos =  navigation_pos-20;
 			}		
 			animate_navigation(idx+1, navigation_pos);
+      
+      if(idx==list_elem_count-1){
+      submitFunction();
+      }
 		}
 	}
 

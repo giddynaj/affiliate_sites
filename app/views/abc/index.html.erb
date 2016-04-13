@@ -69,7 +69,7 @@ var fg = <%= @visitor.client_version.stages.find_by_name('index').form_field_gro
 <%= form_field_helper(field, { class: 'u-full-width', onchange: 'return changed(this);' }) %>
 <div class="industry hidden">
 <label for='make_id' id='make_id_label'>Describe Industry & Select below</label>
-<input name='industry-other' type=text onchange="return getn(this)"></input>
+<%= form_field_helper(@fg.get_field_by_name('industry-other'), { class: 'u-full-width', onchange: 'return getn(this);'}) %>
 </div>
 <div id=naicslist class='hidden'></div>
 <% field = @fg.get_field_by_name('tax_classification') %>

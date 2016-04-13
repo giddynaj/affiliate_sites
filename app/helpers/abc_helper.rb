@@ -5,7 +5,9 @@ def form_field_helper(form_field, options=nil)
  
   #html_class = options[:class] if options.class == Hash
 
+  unless options
   options = { class: 'u-full-width no-bottom', onchange: 'return changed(this);', required: nil}
+  end
   error_div = "<div id=#{form_field.name + '_msg'} class='no-error'></div>"
 
   options.merge!({ placeholder: form_field.placeholder})

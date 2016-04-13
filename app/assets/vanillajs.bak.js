@@ -1,6 +1,6 @@
 var url = "";
     
-function generateSubmitUrl(arr_obj){
+function generateSubmitUrl(arr_obj, type){
   var form = document.getElementById("form");
   var url = ""
   for (i = 0; i < form.elements.length; i++) {
@@ -11,7 +11,7 @@ function generateSubmitUrl(arr_obj){
      }
      }
     }
-  url = form.action + "?" + url + 'type=submit';
+  url = form.action + "?" + url + 'type=' + type;
 return url;
 }
 function generateEventUrl(obj){
@@ -247,13 +247,13 @@ function addToDropdown(obj){
    }
 
 function submitFunction(){
-  url = generateSubmitUrl();
+  url = generateSubmitUrl([],'submit');
   get_first(url);
   return false;
 }
 
 function submitPartialFunction(arr_obj){
-  url = generateSubmitUrl(arr_obj);
+  url = generateSubmitUrl(arr_obj, 'validate');
   return get_partial(url);
 }
 

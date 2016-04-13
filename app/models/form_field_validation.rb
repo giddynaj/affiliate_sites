@@ -35,6 +35,10 @@ class FormFieldValidation < ActiveRecord::Base
     return { pattern: '(\d{5}([\-]\d{4})?)' }
   end
 
+  def notpleaseselect(value)
+    return value.to_s != "Please select" ?  nil : "Required"
+  end
+
   def notempty(value)
     return value.to_s != "" ?  nil : "Required"
   end
